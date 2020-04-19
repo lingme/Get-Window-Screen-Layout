@@ -26,9 +26,11 @@ namespace Gundam.Spike.ScreenInfo
         {
             if (value is ObservableCollection<Screen> screenArray)
             {
+                var maxW = screenArray.OrderByDescending(x => x.Bounds.Location.X).FirstOrDefault();
+                var maxH = screenArray.OrderByDescending(x => x.Bounds.Location.Y).FirstOrDefault();
                 return new Thickness(
-                    0 - screenArray.Sum(x => x.Bounds.Size.Width)/ 15f ,
-                    0 - screenArray.Sum(x => x.Bounds.Size.Height)/ 15f,
+                    0 - (maxW.Bounds.Size.Width + maxW.Bounds.Location.X) / 15f,
+                    0 - (maxH.Bounds.Size.Height + maxH.Bounds.Location.Y) /15f,
                     0, 0
                     );
             }
