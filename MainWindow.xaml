@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gundam.Spike.ScreenInfo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="390" Width="660">
 
     <Window.Resources>
 
         <local:RatioConvert x:Key="RatioConvert"></local:RatioConvert>
+        <local:MarginConvert x:Key="MarginConvert"></local:MarginConvert>
         
         <Style x:Key="ScreenListBoxStyle" TargetType="{x:Type ListBox}">
             <Setter Property="ItemsPanel">
@@ -53,6 +54,7 @@
                  ItemsSource="{Binding ScreensCollection}" 
                  ItemTemplate="{StaticResource ScreenDataTemp}" 
                  Style="{StaticResource ScreenListBoxStyle}"
+                 Margin="{Binding ScreensCollection,Converter={StaticResource MarginConvert}}"
                  VerticalAlignment="Center" HorizontalAlignment="Center"></ListBox>
     </Grid>
 </Window>
