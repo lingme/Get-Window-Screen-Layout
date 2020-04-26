@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace Gundam.Spike.ScreenInfo
 {
-    internal static class NativeMethods
+    internal static class NativeDisplayMonitors
     {
         private const string User32 = "user32.dll";
 

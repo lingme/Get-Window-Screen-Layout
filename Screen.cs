@@ -21,7 +21,7 @@ namespace Gundam.Spike.ScreenInfo
 
         static Screen()
         {
-            multiMonitorSupport = NativeMethods.GetSystemMetrics(NativeMethods.SM_CMONITORS) != 0;
+            multiMonitorSupport = NativeDisplayMonitors.GetSystemMetrics(NativeDisplayMonitors.SM_CMONITORS) != 0;
         }
 
         private Screen(IntPtr monitor)
@@ -39,9 +39,9 @@ namespace Gundam.Spike.ScreenInfo
             }
             else
             {
-                var info = new NativeMethods.MONITORINFOEX();
+                var info = new NativeDisplayMonitors.MONITORINFOEX();
 
-                NativeMethods.GetMonitorInfo(new HandleRef(null, monitor), info);
+                NativeDisplayMonitors.GetMonitorInfo(new HandleRef(null, monitor), info);
 
                 Bounds = new Rect(
                     info.rcMonitor.left, info.rcMonitor.top,
@@ -57,7 +57,7 @@ namespace Gundam.Spike.ScreenInfo
 
         private Rect GetVirtualScreen()
         {
-            var size = new Size(NativeMethods.GetSystemMetrics(NativeMethods.SM_CXSCREEN), NativeMethods.GetSystemMetrics(NativeMethods.SM_CYSCREEN));
+            var size = new Size(NativeDisplayMonitors.GetSystemMetrics(NativeDisplayMonitors.SM_CXSCREEN), NativeDisplayMonitors.GetSystemMetrics(NativeDisplayMonitors.SM_CYSCREEN));
             return new Rect(0, 0, size.Width, size.Height);
         }
 
@@ -68,8 +68,8 @@ namespace Gundam.Spike.ScreenInfo
                 if (multiMonitorSupport)
                 {
                     var closure = new MonitorEnumCallback();
-                    var proc = new NativeMethods.MonitorEnumProc(closure.Callback);
-                    NativeMethods.EnumDisplayMonitors(NativeMethods.NullHandleRef, null, proc, IntPtr.Zero);
+                    var proc = new NativeDisplayMonitors.MonitorEnumProc(closure.Callback);
+                    NativeDisplayMonitors.EnumDisplayMonitors(NativeDisplayMonitors.NullHandleRef, null, proc, IntPtr.Zero);
                     if (closure.Screens.Count > 0)
                     {
                         return closure.Screens.Cast<Screen>();
@@ -99,8 +99,8 @@ namespace Gundam.Spike.ScreenInfo
                 {
                     return GetWorkingArea();
                 }
-                var info = new NativeMethods.MONITORINFOEX();
-                NativeMethods.GetMonitorInfo(new HandleRef(null, hmonitor), info);
+                var info = new NativeDisplayMonitors.MONITORINFOEX();
+                NativeDisplayMonitors.GetMonitorInfo(new HandleRef(null, hmonitor), info);
                 return new Rect(
                     info.rcWork.left, info.rcWork.top,
                     info.rcWork.right - info.rcWork.left,
@@ -110,8 +110,8 @@ namespace Gundam.Spike.ScreenInfo
 
         private Rect GetWorkingArea()
         {
-            NativeMethods.RECT rc = new NativeMethods.RECT();
-            NativeMethods.SystemParametersInfo(NativeMethods.SPI_GETWORKAREA, 0, ref rc, 0);
+            NativeDisplayMonitors.RECT rc = new NativeDisplayMonitors.RECT();
+            NativeDisplayMonitors.SystemParametersInfo(NativeDisplayMonitors.SPI_GETWORKAREA, 0, ref rc, 0);
             return new Rect(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
         }
 
@@ -119,7 +119,7 @@ namespace Gundam.Spike.ScreenInfo
         {
             if (multiMonitorSupport)
             {
-                return new Screen(NativeMethods.MonitorFromWindow(new HandleRef(null, hwnd), 2));
+                return new Screen(NativeDisplayMonitors.MonitorFromWindow(new HandleRef(null, hwnd), 2));
             }
             return new Screen((IntPtr)PRIMARY_MONITOR);
         }
@@ -128,8 +128,8 @@ namespace Gundam.Spike.ScreenInfo
         {
             if (multiMonitorSupport)
             {
-                var pt = new NativeMethods.POINTSTRUCT((int)point.X, (int)point.Y);
-                return new Screen(NativeMethods.MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST));
+                var pt = new NativeDisplayMonitors.POINTSTRUCT((int)point.X, (int)point.Y);
+                return new Screen(NativeDisplayMonitors.MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST));
             }
             return new Screen((IntPtr)PRIMARY_MONITOR);
         }
