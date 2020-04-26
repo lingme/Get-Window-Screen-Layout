@@ -5,44 +5,40 @@ using System.Windows;
 
 namespace Gundam.Spike.ScreenInfo
 {
-    internal class ExternDll
-    {
-        public const string User32 = "user32.dll";
-        public const string Gdi32 = "gdi32.dll";
-    }
-
     internal static class NativeMethods
     {
+        private const string User32 = "user32.dll";
+
         public const int SM_CMONITORS = 80;
         public const int SM_CXSCREEN = 0;
         public const int SM_CYSCREEN = 1;
         public const int SPI_GETWORKAREA = 48;
 
-        [DllImport(ExternDll.User32, CharSet = CharSet.Auto)]
+        [DllImport(User32, CharSet = CharSet.Auto)]
         [ResourceExposure(ResourceScope.None)]
         public static extern bool GetMonitorInfo(HandleRef hmonitor, [In, Out] MONITORINFOEX info);
 
-        [DllImport(ExternDll.User32, ExactSpelling = true)]
+        [DllImport(User32, ExactSpelling = true)]
         [ResourceExposure(ResourceScope.None)]
         public static extern bool EnumDisplayMonitors(HandleRef hdc, COMRECT rcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
 
-        [DllImport(ExternDll.User32, ExactSpelling = true)]
+        [DllImport(User32, ExactSpelling = true)]
         [ResourceExposure(ResourceScope.None)]
         public static extern IntPtr MonitorFromWindow(HandleRef handle, int flags);
 
-        [DllImport(ExternDll.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
+        [DllImport(User32, ExactSpelling = true, CharSet = CharSet.Auto)]
         [ResourceExposure(ResourceScope.None)]
         public static extern int GetSystemMetrics(int nIndex);
 
-        [DllImport(ExternDll.User32, CharSet = CharSet.Auto)]
+        [DllImport(User32, CharSet = CharSet.Auto)]
         [ResourceExposure(ResourceScope.None)]
         public static extern bool SystemParametersInfo(int nAction, int nParam, ref RECT rc, int nUpdate);
 
-        [DllImport(ExternDll.User32, ExactSpelling = true)]
+        [DllImport(User32, ExactSpelling = true)]
         [ResourceExposure(ResourceScope.None)]
         public static extern IntPtr MonitorFromPoint(POINTSTRUCT pt, int flags);
 
-        [DllImport(ExternDll.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
+        [DllImport(User32, ExactSpelling = true, CharSet = CharSet.Auto)]
         [ResourceExposure(ResourceScope.None)]
         public static extern bool GetCursorPos([In, Out] POINT pt);
 
